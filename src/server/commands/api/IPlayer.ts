@@ -9,3 +9,7 @@ export interface IResponseRegister {
     error: boolean;
     errorText: string;
 }
+export interface IUpdateWinner {
+    name: string;
+    wins: number;
+}
