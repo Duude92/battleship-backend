@@ -1,5 +1,5 @@
 import { IRoutedCommand } from '../../api/IRoutedCommand';
-import { IRequestRegister, IResponseRegister } from './IRegistration';
+import { IRequestRegister, IResponseRegister } from './api/IRegistration';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { randomUUID } from 'node:crypto';
 import { createCommandObject } from '../../api/ICommand';
