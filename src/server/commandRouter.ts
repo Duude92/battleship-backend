@@ -17,5 +17,5 @@ export const routeMessage = async (
     }
     const payload = JSON.parse(request.data);
     const result = await command(payload);
-    socket.send(JSON.stringify(result));
+    result.forEach((res) => socket.send(JSON.stringify(res)));
 };

@@ -3,6 +3,7 @@ import { IRequestRegister, IResponseRegister } from './api/IPlayer';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { randomUUID } from 'node:crypto';
 import { createCommandObject } from '../../api/ICommand';
+import { updateWinners } from './updateWinners';
 
 const register = async (payload: IRequestRegister) => {
     let existingUser = dbContext.users.find(
@@ -24,7 +25,7 @@ const register = async (payload: IRequestRegister) => {
         error: false,
         errorText: ''
     };
-    return createCommandObject('reg', response);
+    return [createCommandObject('reg', response), await updateWinners()];
 };
 
 export const createCommand = (): IRoutedCommand => ({
