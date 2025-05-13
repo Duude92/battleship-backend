@@ -1,8 +1,11 @@
-import * as ws from "ws";
+import * as ws from 'ws';
+import { routeMessage } from './commandRouter';
 
 export const startServer = (port: number) => {
-    const srv = new ws.Server({port: port});
-    srv.on('connection', (socket) => {
-        console.log(`New connection: ${socket.url}`);
-    })
-}
+    const srv = new ws.Server({ port: port });
+    srv.on('connection', async (socket) => {
+        socket.onmessage = (msg) => {
+            routeMessage(msg.data.toString());
+        };
+    });
+};
