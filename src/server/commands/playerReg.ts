@@ -4,6 +4,7 @@ import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { randomUUID } from 'node:crypto';
 import { createCommandObject } from '../../api/ICommand';
 import { updateWinners } from './updateWinners';
+import { updateRoom } from './updateRoom';
 
 const register = async (payload: IRequestRegister) => {
     let existingUser = dbContext.users.find(
@@ -25,7 +26,11 @@ const register = async (payload: IRequestRegister) => {
         error: false,
         errorText: ''
     };
-    return [createCommandObject('reg', response), await updateWinners()];
+    return [
+        createCommandObject('reg', response),
+        await updateRoom(),
+        await updateWinners()
+    ];
 };
 
 export const createCommand = (): IRoutedCommand => ({
