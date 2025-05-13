@@ -1,8 +1,11 @@
-import { createCommand } from './commands/playerReg';
 import { IRoutedCommand } from '../api/IRoutedCommand';
 import { ICommand } from '../api/ICommand';
-
-const commands: IRoutedCommand[] = [createCommand()];
+import { getCommands } from '../utility/commandLoader';
+//TODO: Use of import-time dynamic import instead of resolving promise
+getCommands('./server/commands/').then((loadedCommands) =>
+    commands.push(...loadedCommands.filter((cmd) => !!cmd))
+);
+const commands: IRoutedCommand[] = [];
 export const routeMessage = async (
     incomingMessage: string,
     socket: WebSocket
