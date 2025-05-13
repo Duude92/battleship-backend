@@ -1,27 +1,30 @@
 import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { IRequestRegister, IResponseRegister } from './api/IPlayer';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
-import { randomUUID } from 'node:crypto';
 import { createCommandObject } from '../../api/ICommand';
 import { updateWinners } from './updateWinners';
 import { updateRoom } from './updateRoom';
+import { connectionProvider } from '../server';
 
-const register = async (input: string) => {
+const register = async (input: string, userId: string) => {
     const payload = JSON.parse(input) as IRequestRegister;
 
     let existingUser = dbContext.users.find(
         (user) => user.name === payload.name
     );
     if (!existingUser) {
-        const newId = randomUUID();
         existingUser = {
             name: payload.name,
             password: payload.password,
-            id: newId,
+            id: userId,
             wins: 0
         };
         dbContext.users.push(existingUser);
     }
+    const connection = connectionProvider.connections.find(
+        (conn) => conn.userId === userId
+    );
+    connection!.userId = existingUser.id;
     const response: IResponseRegister = {
         name: existingUser!.name,
         index: existingUser!.id,
