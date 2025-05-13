@@ -4,7 +4,7 @@ import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { randomUUID } from 'node:crypto';
 import { createCommandObject } from '../../api/ICommand';
 
-const register = async (payload: IRequestRegister, socket: WebSocket) => {
+const register = async (payload: IRequestRegister) => {
     let existingUser = dbContext.users.find(
         (user) => user.name === payload.name
     );
@@ -16,7 +16,6 @@ const register = async (payload: IRequestRegister, socket: WebSocket) => {
             id: newId
         };
         dbContext.users.push(existingUser);
-
     }
     const response: IResponseRegister = {
         name: existingUser!.name,
@@ -24,8 +23,7 @@ const register = async (payload: IRequestRegister, socket: WebSocket) => {
         error: false,
         errorText: ''
     };
-    const answer = createCommandObject('reg', response);
-    socket.send(JSON.stringify(answer));
+    return createCommandObject('reg', response);
 };
 
 export const createCommand = (): IRoutedCommand => ({

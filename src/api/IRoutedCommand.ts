@@ -1,4 +1,6 @@
+import { ICommand } from './ICommand';
+
 export interface IRoutedCommand {
     route: string;
-    command: (payload: any, socket: WebSocket) => Promise<any>;
+    command: (payload: any) => Promise<ICommand>;
 }
