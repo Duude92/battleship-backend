@@ -15,7 +15,7 @@ export const routeMessage = async (
     if (!command) {
         throw new Error(`${request.type} command not found`);
     }
-    const payload = JSON.parse(request.data);
-    const result = await command(payload);
+
+    const result = await command(request.data);
     result.forEach((res) => socket.send(JSON.stringify(res)));
 };

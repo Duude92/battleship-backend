@@ -6,7 +6,9 @@ import { createCommandObject } from '../../api/ICommand';
 import { updateWinners } from './updateWinners';
 import { updateRoom } from './updateRoom';
 
-const register = async (payload: IRequestRegister) => {
+const register = async (input: string) => {
+    const payload = JSON.parse(input) as IRequestRegister;
+
     let existingUser = dbContext.users.find(
         (user) => user.name === payload.name
     );
