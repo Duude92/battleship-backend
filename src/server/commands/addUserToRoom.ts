@@ -17,7 +17,8 @@ const addUserToRoom = async (
     );
     const user = dbContext.users.find((user) => user.id === userId);
     room!.roomUsers.push(createRoomUser(1, user!)); //TODO: what is index? userId?
-    return [...await createGame(room!.roomId)];
+    await createGame(room!.roomId);
+    return [];
 };
 export const createCommand = (): IRoutedCommand => ({
     route: commandType,
