@@ -13,7 +13,8 @@ const register = async (payload: IRequestRegister) => {
         existingUser = {
             name: payload.name,
             password: payload.password,
-            id: newId
+            id: newId,
+            wins: 0
         };
         dbContext.users.push(existingUser);
     }
