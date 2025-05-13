@@ -13,8 +13,11 @@ const createRoom = async (payload: '', userId: string) => {
         roomId: randomUUID(),
         roomUsers: [
             {
-                name: dbContext.users.find((user) => user.id === userId)!.name,
-                index: 0
+                index: 0, //TODO: What is that index <string|number>
+                user: dbContext.users.find((user) => user.id === userId)!,
+                get name() {
+                    return this.user.name;
+                }
             }
         ]
     };
