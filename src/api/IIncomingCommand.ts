@@ -1,4 +1,4 @@
-interface IIncomingCommand {
+export interface IIncomingCommand {
     type: string;
     data: any;
     id: 0;

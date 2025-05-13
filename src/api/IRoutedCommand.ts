@@ -1,4 +1,4 @@
-interface IRoutedCommand {
+export interface IRoutedCommand {
     route: string;
-    command: (payload: any) => Promise<any>;
+    command: (payload: any, socket: WebSocket) => Promise<any>;
 }
