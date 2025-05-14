@@ -11,14 +11,15 @@ export const createGame = async (roomId: string | number) => {
     }
     const session = new Session(room.roomId.toString());
     sessionProvider.sessions.push(session);
-    const command = createCommandObject('create_game', {
-        idGame: roomId,
-        idPlayer: room.roomUsers.map((user) => user.user.id)
+    room.roomUsers.forEach((user) => {
+        connectionProvider.unicast(
+            user.user.id,
+            createCommandObject('create_game', {
+                idGame: roomId,
+                idPlayer: user.user.id
+            })
+        );
     });
-    connectionProvider.multicast(
-        room.roomUsers.map((user) => user.user.id),
-        command
-    );
     const roomIndex = roomProvider.rooms.findIndex((rm) => rm == room);
     roomProvider.rooms.splice(roomIndex, 1);
 };
