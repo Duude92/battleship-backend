@@ -1,7 +1,7 @@
 import { RoomIdType } from '../../../api/IRoom';
 import { UserIdType } from '../../../api/storage/IUser';
 
-export type AttackResult = 'miss' | 'killed' | 'shot';
+export type AttackResult = 'miss' | 'killed' | 'shot' | 'unprocessed';
 
 export interface IAttackRequest {
     gameId: RoomIdType;
