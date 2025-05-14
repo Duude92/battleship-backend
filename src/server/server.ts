@@ -8,7 +8,7 @@ export const connectionProvider = {
     get connections() {
         return __connections;
     },
-    multicast(usersIds: string[], command: ICommand) {
+    multicast(usersIds: (number | string)[], command: ICommand) {
         const commandString = JSON.stringify(command);
         usersIds.forEach((user) => {
             connectionProvider.connections
@@ -16,7 +16,7 @@ export const connectionProvider = {
                 ?.socket.send(commandString);
         });
     },
-    unicast(userId: string, command: ICommand) {
+    unicast(userId: number | string, command: ICommand) {
         this.connections
             .find((conn) => conn.userId == userId)
             ?.socket.send(JSON.stringify(command));
