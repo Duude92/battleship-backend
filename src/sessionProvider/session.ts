@@ -1,4 +1,5 @@
 import { IShipsData } from '../server/commands/api/IShipsData';
+import { startGame } from '../server/commands/startGame';
 
 enum Turn {
     first = 0,
@@ -18,5 +19,6 @@ export class Session {
 
     addShips(data: IShipsData) {
         this.boards.push(data);
+        if (this.boards.length === 2) startGame(this.boards);
     }
 }
