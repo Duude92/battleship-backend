@@ -1,11 +1,20 @@
 import * as ws from 'ws';
 import { routeMessage } from './commandRouter';
 import { randomUUID } from 'node:crypto';
+import { ICommand } from '../api/ICommand';
 
-const connections: { socket: WebSocket; userId: string }[] = [];
+const __connections: { socket: WebSocket; userId: string }[] = [];
 export const connectionProvider = {
     get connections() {
-        return connections;
+        return __connections;
+    },
+    multicast(usersIds: string[], command: ICommand) {
+        const commandString = JSON.stringify(command);
+        usersIds.forEach((user) => {
+            connectionProvider.connections
+                .find((conn) => conn.userId == user)
+                ?.socket.send(commandString);
+        });
     }
 };
 export const startServer = (port: number) => {
