@@ -17,7 +17,7 @@ const attack = async (payload: string, userId: UserIdType) => {
     }
     if (session.currentPlayer != userId) return [];
     const result = session.shoot(data.x, data.y, userId);
-    if (result == 'unprocessed') return [];
+    if (result === 'unprocessed') return [];
     const response: IAttackResponse = {
         status: result,
         currentPlayer: userId,
@@ -30,7 +30,8 @@ const attack = async (payload: string, userId: UserIdType) => {
         session.players,
         createCommandObject('attack', response)
     );
-    session.makeTurn();
+    if (result !== 'shot') session.makeTurn();
+    
     const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(session.players, nextPlayer);
     return [];
