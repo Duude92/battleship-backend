@@ -15,11 +15,10 @@ export const createGame = async (roomId: string | number) => {
         idGame: roomId,
         idPlayer: room.roomUsers.map((user) => user.user.id)
     });
-    room.roomUsers.forEach((user) => {
-        connectionProvider.connections
-            .find((conn) => conn.userId == user.user.id)
-            ?.socket.send(JSON.stringify(command));
-    });
+    connectionProvider.multicast(
+        room.roomUsers.map((user) => user.user.id),
+        command
+    );
     const roomIndex = roomProvider.rooms.findIndex((rm) => rm == room);
     roomProvider.rooms.splice(roomIndex, 1);
 };
