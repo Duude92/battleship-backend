@@ -15,6 +15,7 @@ const attack = async (payload: string, userId: UserIdType) => {
     if (!session) {
         throw new Error(`Session ${data.gameId} not found!`);
     }
+    if (session.currentPlayer != userId) return [];
     const result = session.shoot(data.x, data.y);
     const response: IAttackResponse = {
         status: result,
@@ -30,10 +31,7 @@ const attack = async (payload: string, userId: UserIdType) => {
     );
     session.makeTurn();
     const nextPlayer = turn(session.currentPlayer);
-    connectionProvider.multicast(
-        session.players,
-        nextPlayer
-    );
+    connectionProvider.multicast(session.players, nextPlayer);
     return [];
 };
 export const createCommand = (): IRoutedCommand => ({
