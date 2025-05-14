@@ -22,7 +22,8 @@ const createRoom = async (payload: string, userId: UserIdType) => {
         ]
     };
     roomProvider.rooms.push(newRoom);
-    return [await updateRoom()];
+    await updateRoom();
+    return [];
 };
 export const createCommand = (): IRoutedCommand => ({
     route: commandType,

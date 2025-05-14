@@ -32,11 +32,9 @@ const register = async (input: string, userId: UserIdType) => {
         error: false,
         errorText: ''
     };
-    return [
-        createCommandObject('reg', response),
-        await updateRoom(),
-        await updateWinners()
-    ];
+    await updateRoom();
+    await updateWinners();
+    return [createCommandObject('reg', response)];
 };
 
 export const createCommand = (): IRoutedCommand => ({
