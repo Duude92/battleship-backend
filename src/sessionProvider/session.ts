@@ -18,8 +18,15 @@ export class Session {
         this.turn = Turn.first;
     }
 
+    get nextPlayer(): string | number {
+        return this.players[this.turn];
+    }
+
     get players(): (string | number)[] {
         return this.boards.map((board) => board.indexPlayer);
+    }
+    makeTurn(){
+        this.turn = Number(!this.turn);
     }
 
     addShips(data: IShipsData) {
