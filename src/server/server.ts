@@ -3,7 +3,7 @@ import { routeMessage } from './commandRouter';
 import { randomUUID } from 'node:crypto';
 import { ICommand } from '../api/ICommand';
 
-const __connections: { socket: WebSocket; userId: string }[] = [];
+const __connections: { readonly socket: WebSocket; userId: string }[] = [];
 export const connectionProvider = {
     get connections() {
         return __connections;
@@ -15,6 +15,11 @@ export const connectionProvider = {
                 .find((conn) => conn.userId == user)
                 ?.socket.send(commandString);
         });
+    },
+    unicast(userId: string, command: ICommand) {
+        this.connections
+            .find((conn) => conn.userId == userId)
+            ?.socket.send(JSON.stringify(command));
     }
 };
 export const startServer = (port: number) => {
