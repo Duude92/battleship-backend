@@ -3,6 +3,7 @@ import {
     IShip,
     IShipsData
 } from '../server/commands/api/IShipsData';
+const CELLS_MAX = 10;
 
 const createCellData = (ships: IShip[]): ICellData[][] => {
     const result: ICellData[][] = [];
@@ -13,9 +14,9 @@ const createCellData = (ships: IShip[]): ICellData[][] => {
             result[cell.x][cell.y] = createCell(ship);
         });
     });
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < CELLS_MAX; i++) {
         if (!result[i]) result[i] = [];
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < CELLS_MAX; j++) {
             if (!result[i][j]) result[i][j] = createCell(undefined);
         }
     }

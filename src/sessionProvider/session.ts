@@ -5,7 +5,7 @@ import { finish } from '../server/commands/finish';
 import { UserIdType } from '../api/storage/IUser';
 import { createBoard, IBoard } from './board';
 
-const CELLS_MAX = 10;
+const CELL_MAX_ID = 9;
 
 enum Turn {
     first = 0,
@@ -54,6 +54,7 @@ export class Session {
         const board = this.boards.find(
             (board) => board.shipData.indexPlayer !== userId
         )!;
+        console.log({ x, y });
         if (board.cellData[x][y].cellHit) return 'unprocessed';
         board.cellData[x][y].cellHit = true;
         if (!board.cellData[x][y].cellObject) return 'miss';
@@ -66,8 +67,8 @@ export class Session {
         let randY: number;
         // TODO: Optimize
         while (result == 'unprocessed') {
-            randX = Math.round(Math.random() * CELLS_MAX);
-            randY = Math.round(Math.random() * CELLS_MAX);
+            randX = Math.round(Math.random() * CELL_MAX_ID);
+            randY = Math.round(Math.random() * CELL_MAX_ID);
             result = this.shoot(randX, randY, userId);
         }
         return {
