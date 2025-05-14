@@ -1,5 +1,4 @@
 import { IUser } from './storage/IUser';
-import { dbContext } from '../memoryDbProvider/dbProvider';
 
 export interface IRoom {
     roomId: string | number;
