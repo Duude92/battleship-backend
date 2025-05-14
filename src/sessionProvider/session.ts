@@ -18,6 +18,10 @@ export class Session {
         this.turn = Turn.first;
     }
 
+    get players(): (string | number)[] {
+        return this.boards.map((board) => board.indexPlayer);
+    }
+
     addShips(data: IShipsData) {
         this.boards.push(data);
         if (this.boards.length === 2) startGame(this.boards);
