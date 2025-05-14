@@ -49,22 +49,22 @@ export class Session {
     }
 
     shoot(x: number, y: number, userId: UserIdType): AttackResult {
-        //TODO: process shooting
-        // const random = Math.random();
-        // if (random >= 0.75) finish(this.players, this.currentPlayer);
+        //TODO: process game finishing
+
         const board = this.boards.find(
             (board) => board.shipData.indexPlayer !== userId
         )!;
-        if (!board.cellData[x][y]) return 'miss';
         if (board.cellData[x][y].cellHit) return 'unprocessed';
-        if (board.cellData[x][y].cellObject) return 'shot';
-        return 'unprocessed';
+        board.cellData[x][y].cellHit = true;
+        if (!board.cellData[x][y].cellObject) return 'miss';
+        else return 'shot';
     }
 
     randomShot(userId: UserIdType): IAttackResponse {
         let result: AttackResult = 'unprocessed';
         let randX: number;
         let randY: number;
+        // TODO: Optimize
         while (result == 'unprocessed') {
             randX = Math.round(Math.random() * CELLS_MAX);
             randY = Math.round(Math.random() * CELLS_MAX);
