@@ -1,5 +1,6 @@
 import { IShipsData } from '../server/commands/api/IShipsData';
 import { startGame } from '../server/commands/startGame';
+import { AttackResult } from '../server/commands/api/IAttack';
 
 enum Turn {
     first = 0,
@@ -20,5 +21,10 @@ export class Session {
     addShips(data: IShipsData) {
         this.boards.push(data);
         if (this.boards.length === 2) startGame(this.boards);
+    }
+
+    shoot(x: number, y: number): AttackResult {
+        //TODO: process shooting
+        return 'miss';
     }
 }
