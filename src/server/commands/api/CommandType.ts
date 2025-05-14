@@ -10,4 +10,5 @@ export type CommandType =
     | 'attack'
     | 'randomAttack'
     | 'turn'
-    | 'finish';
+    | 'finish'
+    | 'single_play';
