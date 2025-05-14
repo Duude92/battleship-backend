@@ -30,10 +30,10 @@ export const getShipCells = (ship: IShip): vector2d[] => {
     const pivot = ship.position;
     const cells: vector2d[] = [];
     cells.push(pivot);
-    for (let i = 0; i < ship.length; i++) {
+    for (let i = 1; i < ship.length; i++) {
         cells.push({
-            x: pivot.x + Number(!ship.direction),
-            y: pivot.y + Number(ship.direction)
+            x: pivot.x + Number(!ship.direction) * i,
+            y: pivot.y + Number(ship.direction) * i
         });
     }
     return cells;
