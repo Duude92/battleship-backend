@@ -21,6 +21,12 @@ export const connectionProvider = {
         this.connections
             .find((conn) => conn.userId == userId)
             ?.socket.send(JSON.stringify(command));
+    },
+    broadcast(command: ICommand) {
+        const commandString = JSON.stringify(command);
+        this.connections.forEach((connection) =>
+            connection.socket.send(commandString)
+        );
     }
 };
 export const startServer = (port: number) => {
