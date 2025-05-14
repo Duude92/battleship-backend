@@ -34,7 +34,11 @@ export class Session {
 
     addShips(data: IShipsData) {
         this.boards.push(data);
-        if (this.boards.length === 2) startGame(this.boards);
+        if (this.boards.length === 2) {
+            //Randomize first turn
+            this.turn = Number(Math.random() > 0.5);
+            startGame(this.boards, this.currentPlayer);
+        }
     }
 
     shoot(x: number, y: number): AttackResult {
