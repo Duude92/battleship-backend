@@ -24,7 +24,8 @@ export class Session {
     get currentPlayer(): UserIdType {
         return this.players[this.turn];
     }
-//TODO: Optimize it
+
+    //TODO: Optimize it
     get players(): UserIdType[] {
         return this.boards.map((board) => board.shipData.indexPlayer);
     }
@@ -45,10 +46,14 @@ export class Session {
         }
     }
 
-    shoot(x: number, y: number): AttackResult {
+    shoot(x: number, y: number, userId: UserIdType): AttackResult {
         //TODO: process shooting
-        const random = Math.random();
-        if (random >= 0.75) finish(this.players, this.currentPlayer);
-        return 'miss';
+        // const random = Math.random();
+        // if (random >= 0.75) finish(this.players, this.currentPlayer);
+        const board = this.boards.find((board) => board.shipData.indexPlayer !== userId)!;
+        if(!board.cellData[x][y]) return 'miss';
+        if(board.cellData[x][y].cellHit) return "unprocessed";
+        if(board.cellData[x][y].cellObject) return "shot";
+        return "unprocessed"
     }
 }
