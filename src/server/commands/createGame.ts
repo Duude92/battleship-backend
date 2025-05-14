@@ -1,4 +1,4 @@
-import { createCommandObject, ICommand } from '../../api/ICommand';
+import { createCommandObject } from '../../api/ICommand';
 import { roomProvider } from '../../roomProvider/roomProvider';
 import { connectionProvider } from '../server';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';

@@ -1,5 +1,3 @@
-import { createCommandObject } from '../../api/ICommand';
-
 const commandType = 'create_room';
 
 import { roomProvider } from '../../roomProvider/roomProvider';
@@ -8,7 +6,7 @@ import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { updateRoom } from './updateRoom';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 
-const createRoom = async (payload: '', userId: string) => {
+const createRoom = async (payload: string, userId: string) => {
     const newRoom = {
         roomId: randomUUID(),
         roomUsers: [

@@ -18,12 +18,11 @@ export const getCommands = async (
             .filter((file) => file.isFile())
             .map(async (file) => {
                 const filePath = path.normalize('../' + basePath + file.name);
-                let module = await import(filePath);
+                const module = await import(filePath);
 
                 /** @type {IRoutedCommand}*/
                 if (!module.createCommand) return null;
-                let command = module.createCommand();
-                return command;
+                return module.createCommand();
             })
     );
 };
