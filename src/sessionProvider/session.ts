@@ -1,9 +1,11 @@
 import { IShipsData } from '../server/commands/api/IShipsData';
 import { startGame } from '../server/commands/startGame';
-import { AttackResult } from '../server/commands/api/IAttack';
+import { AttackResult, IAttackResponse } from '../server/commands/api/IAttack';
 import { finish } from '../server/commands/finish';
 import { UserIdType } from '../api/storage/IUser';
 import { createBoard, IBoard } from './board';
+
+const CELLS_MAX = 10;
 
 enum Turn {
     first = 0,
@@ -50,10 +52,31 @@ export class Session {
         //TODO: process shooting
         // const random = Math.random();
         // if (random >= 0.75) finish(this.players, this.currentPlayer);
-        const board = this.boards.find((board) => board.shipData.indexPlayer !== userId)!;
-        if(!board.cellData[x][y]) return 'miss';
-        if(board.cellData[x][y].cellHit) return "unprocessed";
-        if(board.cellData[x][y].cellObject) return "shot";
-        return "unprocessed"
+        const board = this.boards.find(
+            (board) => board.shipData.indexPlayer !== userId
+        )!;
+        if (!board.cellData[x][y]) return 'miss';
+        if (board.cellData[x][y].cellHit) return 'unprocessed';
+        if (board.cellData[x][y].cellObject) return 'shot';
+        return 'unprocessed';
+    }
+
+    randomShot(userId: UserIdType): IAttackResponse {
+        let result: AttackResult = 'unprocessed';
+        let randX: number;
+        let randY: number;
+        while (result == 'unprocessed') {
+            randX = Math.round(Math.random() * CELLS_MAX);
+            randY = Math.round(Math.random() * CELLS_MAX);
+            result = this.shoot(randX, randY, userId);
+        }
+        return {
+            status: result,
+            currentPlayer: userId,
+            position: {
+                x: randX!,
+                y: randY!
+            }
+        };
     }
 }
