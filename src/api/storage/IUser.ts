@@ -4,3 +4,4 @@ export interface IUser {
     password: string;
     wins: number;
 }
+export type UserType = string | number;
