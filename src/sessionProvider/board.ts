@@ -14,11 +14,10 @@ const createCellData = (ships: IShip[]): ICellData[][] => {
         });
     });
     for (let i = 0; i < 10; i++) {
-        // for (let j = 0; j < 10; j++) {
-            if (!result[i]) result[i] = [];
-
-            // if (!result[i][j])
-        // }
+        if (!result[i]) result[i] = [];
+        for (let j = 0; j < 10; j++) {
+            if (!result[i][j]) result[i][j] = createCell(undefined);
+        }
     }
     return result;
 };
@@ -37,7 +36,7 @@ interface ICellData {
     cellObject: IShip | undefined;
 }
 
-const createCell = (ship: IShip): ICellData => ({
+const createCell = (ship: IShip | undefined): ICellData => ({
     cellHit: false,
     cellObject: ship
 });
