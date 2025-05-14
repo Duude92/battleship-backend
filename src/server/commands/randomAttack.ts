@@ -20,7 +20,7 @@ const randomAttack = async (payload: string, userId: UserIdType) => {
         session.players,
         createCommandObject('attack', result)
     );
-    if (result.status !== 'shot') session.makeTurn();
+    if (result.status === 'miss') session.makeTurn();
 
     const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(session.players, nextPlayer);

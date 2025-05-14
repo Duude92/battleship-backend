@@ -30,8 +30,8 @@ const attack = async (payload: string, userId: UserIdType) => {
         session.players,
         createCommandObject('attack', response)
     );
-    if (result !== 'shot') session.makeTurn();
-    
+    if (result === 'miss') session.makeTurn();
+
     const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(session.players, nextPlayer);
     return [];

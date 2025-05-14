@@ -54,11 +54,16 @@ export class Session {
         const board = this.boards.find(
             (board) => board.shipData.indexPlayer !== userId
         )!;
-        console.log({ x, y });
         if (board.cellData[x][y].cellHit) return 'unprocessed';
         board.cellData[x][y].cellHit = true;
         if (!board.cellData[x][y].cellObject) return 'miss';
-        else return 'shot';
+        if (board.cellData[x][y].shipCells!.cells.length === 1) return 'killed';
+        const shipCells = board.cellData[x][y].shipCells!;
+        const index = shipCells.cells.findIndex(
+            (cell) => cell.x === x && cell.y === y
+        );
+        shipCells.cells.splice(index, 1);
+        return 'shot';
     }
 
     randomShot(userId: UserIdType): IAttackResponse {
