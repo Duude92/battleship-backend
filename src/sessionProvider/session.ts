@@ -20,7 +20,7 @@ export class Session {
         this.turn = Turn.first;
     }
 
-    get nextPlayer(): string | number {
+    get currentPlayer(): UserType {
         return this.players[this.turn];
     }
 

@@ -28,7 +28,7 @@ const attack = async (payload: string, userId: string) => {
         createCommandObject('attack', response)
     );
     session.makeTurn();
-    const nextPlayer = turn(session.nextPlayer);
+    const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(
         session.players,
         nextPlayer
