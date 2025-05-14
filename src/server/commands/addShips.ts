@@ -1,8 +1,9 @@
 import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { IShipsData } from './api/IShipsData';
+import { UserIdType } from '../../api/storage/IUser';
 
-const addShip = async (payload: string, userId: string) => {
+const addShip = async (payload: string, userId: UserIdType) => {
     const data = JSON.parse(payload) as IShipsData;
     const session = sessionProvider.sessions.find(
         (session) => session.gameId == data.gameId

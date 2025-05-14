@@ -1,7 +1,7 @@
 export interface IUser {
-    id: string;
+    id: UserIdType;
     name: string;
     password: string;
     wins: number;
 }
-export type UserType = string | number;
+export type UserIdType = string | number;

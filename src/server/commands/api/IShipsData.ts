@@ -1,6 +1,9 @@
+import { RoomIdType } from '../../../api/IRoom';
+import { UserIdType } from '../../../api/storage/IUser';
+
 export interface IShipsData {
-    gameId: string | number;
-    indexPlayer: string | number;
+    gameId: RoomIdType;
+    indexPlayer: UserIdType;
     ships: IShip[];
 }
 

@@ -3,8 +3,9 @@ import { roomProvider } from '../../roomProvider/roomProvider';
 import { connectionProvider } from '../server';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { Session } from '../../sessionProvider/session';
+import { RoomIdType } from '../../api/IRoom';
 
-export const createGame = async (roomId: string | number) => {
+export const createGame = async (roomId: RoomIdType) => {
     const room = roomProvider.rooms.find((room) => room.roomId === roomId);
     if (!room) {
         throw new Error('Room not found');

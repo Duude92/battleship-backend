@@ -2,8 +2,9 @@ import * as ws from 'ws';
 import { routeMessage } from './commandRouter';
 import { randomUUID } from 'node:crypto';
 import { ICommand } from '../api/ICommand';
+import { UserIdType } from '../api/storage/IUser';
 
-const __connections: { readonly socket: WebSocket; userId: string }[] = [];
+const __connections: { readonly socket: WebSocket; userId: UserIdType }[] = [];
 export const connectionProvider = {
     get connections() {
         return __connections;

@@ -1,20 +1,22 @@
-import { IUser } from './storage/IUser';
+import { IUser, UserIdType } from './storage/IUser';
 
 export interface IRoom {
-    roomId: string | number;
+    roomId: RoomIdType;
     roomUsers: IRoomUser[];
 }
 
 interface IRoomUser {
     name: string;
-    index: string | number;
+    index: RoomIdType;
     user: IUser;
 }
 
-export const createRoomUser = (index: string | number, user: IUser) => ({
+export const createRoomUser = (index: RoomIdType, user: IUser) => ({
     index: index, //TODO: What is that index <string|number>
     user: user,
     get name() {
         return this.user.name;
     }
 });
+
+export type RoomIdType = UserIdType

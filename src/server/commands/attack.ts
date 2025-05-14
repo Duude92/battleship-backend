@@ -4,8 +4,9 @@ import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { createCommandObject } from '../../api/ICommand';
 import { connectionProvider } from '../server';
 import { turn } from './turn';
+import { UserIdType } from '../../api/storage/IUser';
 
-const attack = async (payload: string, userId: string) => {
+const attack = async (payload: string, userId: UserIdType) => {
     const data = JSON.parse(payload) as IAttackRequest;
     data.indexPlayer = userId;
     const session = sessionProvider.sessions.find(

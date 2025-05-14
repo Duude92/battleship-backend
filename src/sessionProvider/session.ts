@@ -2,7 +2,7 @@ import { IShipsData } from '../server/commands/api/IShipsData';
 import { startGame } from '../server/commands/startGame';
 import { AttackResult } from '../server/commands/api/IAttack';
 import { finish } from '../server/commands/finish';
-import { UserType } from '../api/storage/IUser';
+import { UserIdType } from '../api/storage/IUser';
 
 enum Turn {
     first = 0,
@@ -20,11 +20,11 @@ export class Session {
         this.turn = Turn.first;
     }
 
-    get currentPlayer(): UserType {
+    get currentPlayer(): UserIdType {
         return this.players[this.turn];
     }
 
-    get players(): UserType[] {
+    get players(): UserIdType[] {
         return this.boards.map((board) => board.indexPlayer);
     }
 

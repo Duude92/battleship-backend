@@ -2,16 +2,17 @@ import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { roomProvider } from '../../roomProvider/roomProvider';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { ICommand } from '../../api/ICommand';
-import { createRoomUser } from '../../api/IRoom';
+import { createRoomUser, RoomIdType } from '../../api/IRoom';
 import { createGame } from './createGame';
+import { UserIdType } from '../../api/storage/IUser';
 
 const commandType = 'add_user_to_room';
 
 const addUserToRoom = async (
     payload: string,
-    userId: string
+    userId: UserIdType
 ): Promise<ICommand[]> => {
-    const payloadObject: { indexRoom: string | number } = JSON.parse(payload);
+    const payloadObject: { indexRoom: RoomIdType } = JSON.parse(payload);
     const room = roomProvider.rooms.find(
         (room) => room.roomId === payloadObject.indexRoom
     );

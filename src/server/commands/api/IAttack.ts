@@ -1,10 +1,13 @@
+import { RoomIdType } from '../../../api/IRoom';
+import { UserIdType } from '../../../api/storage/IUser';
+
 export type AttackResult = 'miss' | 'killed' | 'shot';
 
 export interface IAttackRequest {
-    gameId: string | number;
+    gameId: RoomIdType;
     x: number;
     y: number;
-    indexPlayer: string | number;
+    indexPlayer: UserIdType;
 }
 export interface IAttackResponse{
     position:
@@ -12,6 +15,6 @@ export interface IAttackResponse{
             x: number;
             y: number
         };
-    currentPlayer: number | string;
+    currentPlayer: UserIdType;
     status: AttackResult,
 }
