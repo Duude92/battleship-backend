@@ -15,9 +15,12 @@ const addUserToRoom = async (
     const room = roomProvider.rooms.find(
         (room) => room.roomId === payloadObject.indexRoom
     );
+    if (!room) {
+        throw new Error('Room not found');
+    }
     const user = dbContext.users.find((user) => user.id === userId);
-    room!.roomUsers.push(createRoomUser(1, user!)); //TODO: what is index? userId?
-    await createGame(room!.roomId);
+    room.roomUsers.push(createRoomUser(1, user!)); //TODO: what is index? userId?
+    await createGame(room.roomId);
     return [];
 };
 export const createCommand = (): IRoutedCommand => ({
