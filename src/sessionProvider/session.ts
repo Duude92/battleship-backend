@@ -3,6 +3,7 @@ import { startGame } from '../server/commands/startGame';
 import { AttackResult } from '../server/commands/api/IAttack';
 import { finish } from '../server/commands/finish';
 import { UserIdType } from '../api/storage/IUser';
+import { createBoard, IBoard } from './board';
 
 enum Turn {
     first = 0,
@@ -11,7 +12,7 @@ enum Turn {
 
 export class Session {
     public readonly gameId: string;
-    private readonly boards: IShipsData[];
+    private readonly boards: IBoard[];
     private turn: Turn;
 
     constructor(gameId: string) {
@@ -23,9 +24,9 @@ export class Session {
     get currentPlayer(): UserIdType {
         return this.players[this.turn];
     }
-
+//TODO: Optimize it
     get players(): UserIdType[] {
-        return this.boards.map((board) => board.indexPlayer);
+        return this.boards.map((board) => board.shipData.indexPlayer);
     }
 
     makeTurn() {
@@ -33,11 +34,14 @@ export class Session {
     }
 
     addShips(data: IShipsData) {
-        this.boards.push(data);
+        this.boards.push(createBoard(data));
         if (this.boards.length === 2) {
             //Randomize first turn
             this.turn = Number(Math.random() > 0.5);
-            startGame(this.boards, this.currentPlayer);
+            startGame(
+                this.boards.map((board) => board.shipData),
+                this.currentPlayer
+            );
         }
     }
 
