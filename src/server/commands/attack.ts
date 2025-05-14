@@ -3,6 +3,7 @@ import { IAttackRequest, IAttackResponse } from './api/IAttack';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { createCommandObject } from '../../api/ICommand';
 import { connectionProvider } from '../server';
+import { turn } from './turn';
 
 const attack = async (payload: string, userId: string) => {
     const data = JSON.parse(payload) as IAttackRequest;
@@ -22,8 +23,16 @@ const attack = async (payload: string, userId: string) => {
             y: data.y
         }
     };
-    connectionProvider.multicast(session.players, createCommandObject("attack", response))
-
+    connectionProvider.multicast(
+        session.players,
+        createCommandObject('attack', response)
+    );
+    session.makeTurn();
+    const nextPlayer = turn(session.nextPlayer);
+    connectionProvider.multicast(
+        session.players,
+        nextPlayer
+    );
     return [];
 };
 export const createCommand = (): IRoutedCommand => ({
