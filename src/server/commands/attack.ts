@@ -16,7 +16,8 @@ const attack = async (payload: string, userId: UserIdType) => {
         throw new Error(`Session ${data.gameId} not found!`);
     }
     if (session.currentPlayer != userId) return [];
-    const result = session.shoot(data.x, data.y);
+    const result = session.shoot(data.x, data.y, userId);
+    if (result == 'unprocessed') return [];
     const response: IAttackResponse = {
         status: result,
         currentPlayer: userId,
