@@ -4,10 +4,14 @@ import { IShipsData } from './api/IShipsData';
 
 const addShip = async (payload: string, userId: string) => {
     const data = JSON.parse(payload) as IShipsData;
-    const session = sessionProvider.sessions.find(session=>session.gameId == data.gameId);
+    const session = sessionProvider.sessions.find(
+        (session) => session.gameId == data.gameId
+    );
     if (!session) {
         throw new Error('Session not found');
     }
+    // What if our player tries to break game with changing user id
+    data.indexPlayer = userId;
     session.addShips(data);
     return [];
 };
