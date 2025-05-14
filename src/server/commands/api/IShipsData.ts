@@ -28,11 +28,12 @@ enum ShipSize {
 
 export const getShipCells = (ship: IShip): vector2d[] => {
     const pivot = ship.position;
-    const cells: vector2d[] = [pivot];
-    for (let i = 0; i < ship.type; i++) {
+    const cells: vector2d[] = [];
+    cells.push(pivot);
+    for (let i = 0; i < ship.length; i++) {
         cells.push({
-            x: pivot.x + Number(ship.direction),
-            y: pivot.y + Number(!ship.direction)
+            x: pivot.x + Number(!ship.direction),
+            y: pivot.y + Number(ship.direction)
         });
     }
     return cells;
