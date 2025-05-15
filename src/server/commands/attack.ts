@@ -1,5 +1,9 @@
 import { IRoutedCommand } from '../../api/IRoutedCommand';
-import { IAttackRequest, IAttackResponse } from './api/IAttack';
+import {
+    IAttackRequest,
+    IAttackResponse,
+    isAttackRequest
+} from './api/IAttack';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { createCommandObject } from '../../api/ICommand';
 import { connectionProvider } from '../server';
@@ -7,8 +11,13 @@ import { turn } from './turn';
 import { UserIdType } from '../../api/storage/IUser';
 import { finish } from './finish';
 
-const attack = async (payload: string, userId: UserIdType) => {
-    const data = JSON.parse(payload) as IAttackRequest;
+export const attack = async (
+    payload: string | IAttackRequest,
+    userId: UserIdType
+) => {
+    const data = (
+        !isAttackRequest(payload) ? JSON.parse(payload as string) : payload
+    ) as IAttackRequest;
     data.indexPlayer = userId;
     const session = sessionProvider.sessions.find(
         (ss) => ss.gameId == data.gameId
