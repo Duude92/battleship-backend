@@ -5,6 +5,7 @@ import { createCommandObject } from '../../api/ICommand';
 import { connectionProvider } from '../server';
 import { turn } from './turn';
 import { UserIdType } from '../../api/storage/IUser';
+import { finish } from './finish';
 
 const attack = async (payload: string, userId: UserIdType) => {
     const data = JSON.parse(payload) as IAttackRequest;
@@ -34,6 +35,10 @@ const attack = async (payload: string, userId: UserIdType) => {
 
     const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(session.players, nextPlayer);
+    const winner = session.winner;
+    if (winner) {
+        await finish(session.players, winner);
+    }
     return [];
 };
 export const createCommand = (): IRoutedCommand => ({

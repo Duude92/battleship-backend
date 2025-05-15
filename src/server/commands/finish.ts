@@ -2,8 +2,9 @@ import { createCommandObject } from '../../api/ICommand';
 import { connectionProvider } from '../server';
 import { UserIdType } from '../../api/storage/IUser';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
+import { updateWinners } from './updateWinners';
 
-export const finish = (players: UserIdType[], winner: UserIdType) => {
+export const finish = async (players: UserIdType[], winner: UserIdType) => {
     connectionProvider.multicast(
         players,
         createCommandObject('finish', { winPlayer: winner })
@@ -13,4 +14,5 @@ export const finish = (players: UserIdType[], winner: UserIdType) => {
         throw new Error('User not found!');
     }
     user.wins++;
+    await updateWinners()
 };
