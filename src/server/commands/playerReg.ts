@@ -25,6 +25,15 @@ const register = async (input: string, userId: UserIdType) => {
     const connection = connectionProvider.connections.find(
         (conn) => conn.userId === userId
     );
+    if (existingUser.password !== payload.password) {
+        const response: IResponseRegister = {
+            name: payload.name,
+            index: '',
+            error: true,
+            errorText: 'Provided password is incorrect'
+        };
+        return [createCommandObject('reg', response)];
+    }
     connection!.userId = existingUser.id;
     const response: IResponseRegister = {
         name: existingUser!.name,
