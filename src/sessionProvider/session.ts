@@ -89,24 +89,4 @@ export class Session {
         shipCells.cells.splice(index, 1);
         return 'shot';
     }
-
-    randomShot(userId: UserIdType): IAttackResponse {
-        let result: AttackResult = 'unprocessed';
-        let randX: number;
-        let randY: number;
-        // TODO: Optimize
-        while (result == 'unprocessed') {
-            randX = Math.round(Math.random() * CELL_MAX_ID);
-            randY = Math.round(Math.random() * CELL_MAX_ID);
-            result = this.shoot(randX, randY, userId);
-        }
-        return {
-            status: result,
-            currentPlayer: userId,
-            position: {
-                x: randX!,
-                y: randY!
-            }
-        };
-    }
 }

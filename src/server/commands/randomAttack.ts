@@ -5,6 +5,7 @@ import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { connectionProvider } from '../server';
 import { createCommandObject } from '../../api/ICommand';
 import { turn } from './turn';
+import { attack } from './attack';
 
 const randomAttack = async (payload: string, userId: UserIdType) => {
     const data = JSON.parse(payload) as {
@@ -15,15 +16,16 @@ const randomAttack = async (payload: string, userId: UserIdType) => {
         (ss) => ss.gameId === data.gameId
     )!;
     if (session.currentPlayer !== userId) return [];
-    const result = session.randomShot(userId);
-    connectionProvider.multicast(
-        session.players,
-        createCommandObject('attack', result)
+    const randomShot = session.getAvailableRandomPosition(userId);
+    await attack(
+        {
+            gameId: data.gameId,
+            indexPlayer: userId,
+            x: randomShot.x,
+            y: randomShot.y
+        },
+        userId
     );
-    if (result.status === 'miss') session.makeTurn();
-
-    const nextPlayer = turn(session.currentPlayer);
-    connectionProvider.multicast(session.players, nextPlayer);
     return [];
 };
 
