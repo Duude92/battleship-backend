@@ -49,6 +49,22 @@ export class Session {
         }
     }
 
+    getAvailableRandomPosition(userId: UserIdType) {
+        let randX: number;
+        let randY: number;
+        let occupied = false;
+        const board = this.boards.find(
+            (board) => board.shipData.indexPlayer !== userId
+        )!;
+        // TODO: Optimize
+        while (!occupied) {
+            randX = Math.round(Math.random() * CELL_MAX_ID);
+            randY = Math.round(Math.random() * CELL_MAX_ID);
+            if (!board.cellData[randX][randY].cellHit) occupied = true;
+        }
+        return { x: randX!, y: randY! };
+    }
+
     shoot(x: number, y: number, userId: UserIdType): AttackResult {
         //TODO: process game finishing
 
