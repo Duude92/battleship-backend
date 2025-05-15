@@ -21,5 +21,5 @@ export const routeMessage = async (
     )!.userId;
 
     const result = await command(request.data, userId);
-    result.forEach((res) => socket.send(JSON.stringify(res)));
+    result.forEach((res) => connectionProvider.unicast(userId, res));
 };
