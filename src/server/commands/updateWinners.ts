@@ -10,6 +10,6 @@ export const updateWinners = async () => {
             name: user.name,
             wins: user.wins
         }))
-        .sort((a, b) => a.wins - b.wins);
+        .sort((a, b) => b.wins - a.wins);
     connectionProvider.broadcast(createCommandObject(commandType, winnerTable));
 };
