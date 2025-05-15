@@ -39,6 +39,13 @@ export const startServer = (port: number) => {
         webs.onmessage = (msg) => {
             routeMessage(msg.data.toString(), webs as unknown as WebSocket);
         };
+        webs.onclose = () => {
+            const index = connectionProvider.connections.findIndex(
+                // FIXME
+                (connection) =>
+                    (connection.socket as unknown as ws.WebSocket) === webs
+            );
+            connectionProvider.connections.splice(index, 1);
+        };
     });
-    //TODO: remove connection on disconnect
 };
