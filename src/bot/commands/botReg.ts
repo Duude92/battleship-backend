@@ -18,6 +18,5 @@ export const sendBotRegister = (bot: IBot): void => {
         name: 'bot',
         anonymous: true
     });
-    const requestString = JSON.stringify(request);
-    bot.response(requestString);
+    bot.response(request);
 };
