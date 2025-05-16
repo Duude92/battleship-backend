@@ -52,8 +52,16 @@ export const startServer = (port: number) => {
             'New session started: ' + connection.userId
         );
         connectionProvider.connections.push(connection);
-        webs.onmessage = (msg) => {
-            routeMessage(msg.data.toString(), webs as unknown as WebSocket);
+        webs.onmessage = async (msg) => {
+            try {
+                await routeMessage(
+                    msg.data.toString(),
+                    webs as unknown as WebSocket
+                );
+            } catch (error) {
+                if (!(error instanceof Error)) return;
+                logger.log(MESSAGE_TYPE.ERROR, 'Error: ' + error.message);
+            }
         };
         webs.onclose = () => {
             const index = connectionProvider.connections.findIndex(
