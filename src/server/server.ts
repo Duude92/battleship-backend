@@ -43,10 +43,15 @@ export const connectionProvider = {
 export const startServer = (port: number) => {
     const srv = new ws.Server({ port: port });
     srv.on('connection', async (webs) => {
-        connectionProvider.connections.push({
+        const connection = {
             socket: webs as unknown as WebSocket, //?? FIXME
             userId: randomUUID()
-        });
+        };
+        logger.log(
+            MESSAGE_TYPE.SYSTEM,
+            'New session started: ' + connection.userId
+        );
+        connectionProvider.connections.push(connection);
         webs.onmessage = (msg) => {
             routeMessage(msg.data.toString(), webs as unknown as WebSocket);
         };
@@ -55,6 +60,12 @@ export const startServer = (port: number) => {
                 // FIXME
                 (connection) =>
                     (connection.socket as unknown as ws.WebSocket) === webs
+            );
+            logger.log(
+                MESSAGE_TYPE.SYSTEM,
+                'Player [' +
+                    connectionProvider.connections[index].userId +
+                    '] has been disconnected'
             );
             connectionProvider.connections.splice(index, 1);
         };
