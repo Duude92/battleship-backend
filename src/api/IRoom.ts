@@ -7,8 +7,8 @@ export interface IRoom {
 
 interface IRoomUser {
     name: string;
-    index: RoomIdType;
-    user: IUser;
+    index: UserIdType;
+    // user: IUser;
 }
 
 export const createRoomUser = (index: RoomIdType, user: IUser) => ({

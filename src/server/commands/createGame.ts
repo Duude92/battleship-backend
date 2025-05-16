@@ -15,10 +15,10 @@ export const createGame = async (roomId: RoomIdType) => {
     sessionProvider.sessions.push(session);
     room.roomUsers.forEach((user) => {
         connectionProvider.unicast(
-            user.user.id,
+            user.index,
             createCommandObject('create_game', {
                 idGame: roomId,
-                idPlayer: user.user.id
+                idPlayer: user.index
             })
         );
     });

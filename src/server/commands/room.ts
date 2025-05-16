@@ -9,15 +9,13 @@ import { updateRoom } from './updateRoom';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 
 const createRoom = async (payload: string, userId: UserIdType) => {
+    const user = dbContext.users.find((user) => user.id === userId)!;
     const newRoom = {
         roomId: randomUUID(),
         roomUsers: [
             {
-                index: 0, //TODO: What is that index <string|number>
-                user: dbContext.users.find((user) => user.id === userId)!,
-                get name() {
-                    return this.user.name;
-                }
+                index: userId, //TODO: What is that index <string|number>
+                name: user.name
             }
         ]
     };

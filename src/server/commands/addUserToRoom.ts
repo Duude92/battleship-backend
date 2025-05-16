@@ -19,8 +19,8 @@ const addUserToRoom = async (
     if (!room) {
         throw new Error('Room not found');
     }
-    const user = dbContext.users.find((user) => user.id === userId);
-    room.roomUsers.push(createRoomUser(1, user!)); //TODO: what is index? userId?
+    const user = dbContext.users.find((user) => user.id === userId)!;
+    room.roomUsers.push(createRoomUser(user.id, user)); //TODO: what is index? userId?
     await createGame(room.roomId);
     return [];
 };
