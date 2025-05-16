@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv';
 import { startServer } from './server/server';
-import { logger } from './logger/logger';
+import { logger, MESSAGE_TYPE } from './logger/logger';
 
 configDotenv();
 logger.setup(process.stdout);
@@ -15,4 +15,7 @@ process.on('SIGINT', closeServer);
 process.on('SIGTERM', closeServer);
 process.on('SIGUSR1', closeServer);
 process.on('SIGUSR2', closeServer);
-process.on('uncaughtException', closeServer);
+process.on('uncaughtException', (error) => {
+    logger.log(MESSAGE_TYPE.ERROR, 'Uncaught exception: ' + error);
+    closeServer();
+});
