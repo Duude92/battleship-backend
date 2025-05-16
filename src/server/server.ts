@@ -78,4 +78,5 @@ export const startServer = (port: number) => {
             connectionProvider.connections.splice(index, 1);
         };
     });
+    logger.log(MESSAGE_TYPE.SYSTEM, 'Server has been started on port: ' + port);
 };
