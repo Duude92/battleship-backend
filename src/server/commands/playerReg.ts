@@ -9,6 +9,19 @@ import { UserIdType } from '../../api/storage/IUser';
 
 const register = async (input: string, userId: UserIdType) => {
     const payload = JSON.parse(input) as IRequestRegister;
+    if ('anonymous' in payload) {
+        const response: IResponseRegister = {
+            name: payload.name,
+            index: userId,
+            error: false,
+            errorText: ''
+        };
+        connectionProvider.unicast(
+            userId,
+            createCommandObject('reg', response)
+        );
+        return [];
+    }
 
     let existingUser = dbContext.users.find(
         (user) => user.name === payload.name
