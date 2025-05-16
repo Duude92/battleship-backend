@@ -79,4 +79,5 @@ export const startServer = (port: number) => {
         };
     });
     logger.log(MESSAGE_TYPE.SYSTEM, 'Server has been started on port: ' + port);
+    return srv;
 };
