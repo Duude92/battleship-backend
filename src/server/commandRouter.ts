@@ -2,7 +2,7 @@ import { IRoutedCommand } from '../api/IRoutedCommand';
 import { ICommand } from '../api/ICommand';
 import { getCommands } from '../utility/commandLoader';
 import { connectionProvider } from './server';
-import { logInputMessage } from '../logger/logger';
+import { logger, MESSAGE_TYPE } from '../logger/logger';
 //TODO: Use of import-time dynamic import instead of resolving promise
 getCommands('./server/commands/').then((loadedCommands) =>
     commands.push(...loadedCommands.filter((cmd) => !!cmd))
@@ -18,7 +18,7 @@ export const routeMessage = async (
         throw new Error(`${request.type} command not found`);
     }
     const command = routedCommand?.command;
-    logInputMessage(routedCommand);
+    logger.log(MESSAGE_TYPE.REQUEST, request);
     const userId = connectionProvider.connections.find(
         (conn) => conn.socket === socket
     )!.userId;
