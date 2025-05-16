@@ -43,7 +43,11 @@ const register = async (input: string, userId: UserIdType) => {
     };
     await updateRoom();
     await updateWinners();
-    return [createCommandObject('reg', response)];
+    connectionProvider.unicast(
+        existingUser.id,
+        createCommandObject('reg', response)
+    );
+    return [];
 };
 
 export const createCommand = (): IRoutedCommand => ({
