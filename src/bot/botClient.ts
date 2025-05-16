@@ -3,8 +3,10 @@ import { routeMessage } from './botCommandRouter';
 import { UserIdType } from '../api/storage/IUser';
 import { sendBotRegister } from './commands/botReg';
 import { ICommand } from '../api/ICommand';
+import { RoomIdType } from '../api/IRoom';
 
 export interface IBot {
+    gameId?: RoomIdType;
     client: ws;
     sessionId: Promise<UserIdType>;
     response: (message: ICommand) => void;

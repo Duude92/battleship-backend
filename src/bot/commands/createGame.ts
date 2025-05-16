@@ -9,6 +9,7 @@ const createGame = async (input: string, bot: IBot) => {
         idGame: RoomIdType;
         idPlayer: UserIdType;
     };
+    bot.gameId = payload.idGame;
     await addRandomShips(payload, bot);
     return [];
 };
