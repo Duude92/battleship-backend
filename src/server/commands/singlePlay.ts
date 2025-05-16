@@ -10,8 +10,7 @@ const singlePlay = async (payload: string, userId: UserIdType) => {
     // TODO: TOIMPLEMENT
     const roomId = randomUUID();
     const bot = createBot();
-    // await createSingleplayGame(roomId, userId, bot.sessionId);
-
+    await createSingleplayGame(roomId, userId, await bot.sessionId);
     bots.push(bot);
     return [];
 };
