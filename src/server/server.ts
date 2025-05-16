@@ -3,6 +3,7 @@ import { routeMessage } from './commandRouter';
 import { randomUUID } from 'node:crypto';
 import { ICommand } from '../api/ICommand';
 import { UserIdType } from '../api/storage/IUser';
+import { logger, MESSAGE_TYPE } from '../logger/logger';
 
 const __connections: { readonly socket: WebSocket; userId: UserIdType }[] = [];
 export const connectionProvider = {
@@ -11,6 +12,10 @@ export const connectionProvider = {
     },
     multicast(usersIds: (number | string)[], command: ICommand) {
         const commandString = JSON.stringify(command);
+        logger.log(
+            MESSAGE_TYPE.RESPONSE,
+            'Multicast users: [' + usersIds + '] : ' + commandString
+        );
         usersIds.forEach((user) => {
             connectionProvider.connections
                 .find((conn) => conn.userId == user)
@@ -18,12 +23,18 @@ export const connectionProvider = {
         });
     },
     unicast(userId: number | string, command: ICommand) {
+        const commandString = JSON.stringify(command);
+        logger.log(
+            MESSAGE_TYPE.RESPONSE,
+            'Unicast to: [' + userId + '] : ' + commandString
+        );
         this.connections
             .find((conn) => conn.userId == userId)
-            ?.socket.send(JSON.stringify(command));
+            ?.socket.send(commandString);
     },
     broadcast(command: ICommand) {
         const commandString = JSON.stringify(command);
+        logger.log(MESSAGE_TYPE.RESPONSE, 'Broadcast:' + commandString);
         this.connections.forEach((connection) =>
             connection.socket.send(commandString)
         );
