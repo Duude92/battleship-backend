@@ -42,9 +42,9 @@ export const connectionProvider = {
 };
 export const startServer = (port: number) => {
     const srv = new ws.Server({ port: port });
-    srv.on('connection', async (webs) => {
+    srv.on('connection', async (webs: WebSocket) => {
         const connection = {
-            socket: webs as unknown as WebSocket, //?? FIXME
+            socket: webs, //?? FIXME
             userId: randomUUID()
         };
         logger.log(
@@ -54,10 +54,7 @@ export const startServer = (port: number) => {
         connectionProvider.connections.push(connection);
         webs.onmessage = async (msg) => {
             try {
-                await routeMessage(
-                    msg.data.toString(),
-                    webs as unknown as WebSocket
-                );
+                await routeMessage(msg.data.toString(), webs);
             } catch (error) {
                 if (!(error instanceof Error)) return;
                 logger.log(MESSAGE_TYPE.ERROR, 'Error: ' + error.message);
@@ -66,8 +63,7 @@ export const startServer = (port: number) => {
         webs.onclose = () => {
             const index = connectionProvider.connections.findIndex(
                 // FIXME
-                (connection) =>
-                    (connection.socket as unknown as ws.WebSocket) === webs
+                (connection) => connection.socket === webs
             );
             logger.log(
                 MESSAGE_TYPE.SYSTEM,
