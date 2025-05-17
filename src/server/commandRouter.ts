@@ -3,11 +3,15 @@ import { ICommand } from '../api/ICommand';
 import { getCommands } from '../utility/commandLoader';
 import { connectionProvider } from './server';
 import { logger, MESSAGE_TYPE } from '../logger/logger';
-//TODO: Use of import-time dynamic import instead of resolving promise
-getCommands('./server/commands/').then((loadedCommands) =>
-    commands.push(...loadedCommands.filter((cmd) => !!cmd))
-);
+
 const commands: IRoutedCommand[] = [];
+(async () => {
+    commands.push(
+        ...(await getCommands('./server/commands/')).filter(
+            (cmd) => !!cmd && 'createCommand' in cmd
+        )
+    );
+})();
 export const routeMessage = async (
     incomingMessage: string,
     socket: WebSocket
