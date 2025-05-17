@@ -2,7 +2,7 @@
 
 import { IRoutedCommand } from '../api/IRoutedCommand';
 
-//@ts-ignore
+//@ts-expect-error __WebpackModuleApi is a Webpack TS namespace
 function loadCommands(context: __WebpackModuleApi.RequireContext) {
     const moduleCommands: (() => IRoutedCommand)[] = context
         .keys()
@@ -22,12 +22,12 @@ export const getCommands = async (
     const contexts = [
         {
             path: 'server/commands/',
-            //@ts-ignore
+            //@ts-expect-error Usage of require.context
             ctx: require.context('../server/commands/', false, /\.ts$/)
         },
         {
             path: 'bot/commands/',
-            //@ts-ignore
+            //@ts-expect-error Usage of require.context
             ctx: require.context('../bot/commands/', false, /\.ts$/)
         }
     ];
