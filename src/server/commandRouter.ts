@@ -8,7 +8,7 @@ const commands: IRoutedCommand[] = [];
 (async () => {
     commands.push(
         ...(await getCommands('./server/commands/')).filter(
-            (cmd) => !!cmd && 'createCommand' in cmd
+            (cmd) => !!cmd && 'command' in cmd
         )
     );
 })();
