@@ -12,7 +12,7 @@ interface IRoomUser {
 }
 
 export const createRoomUser = (index: RoomIdType, user: IUser) => ({
-    index: index, //TODO: What is that index <string|number>
+    index: index,
     user: user,
     get name() {
         return this.user.name;

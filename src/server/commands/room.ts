@@ -14,7 +14,7 @@ const createRoom = async (payload: string, userId: UserIdType) => {
         roomId: randomUUID(),
         roomUsers: [
             {
-                index: userId, //TODO: What is that index <string|number>
+                index: userId,
                 name: user.name
             }
         ]

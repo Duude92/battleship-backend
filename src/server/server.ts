@@ -44,7 +44,7 @@ export const startServer = (port: number) => {
     const srv = new ws.Server({ port: port });
     srv.on('connection', async (webs: WebSocket) => {
         const connection = {
-            socket: webs, //?? FIXME
+            socket: webs,
             userId: randomUUID()
         };
         logger.log(
@@ -62,7 +62,6 @@ export const startServer = (port: number) => {
         };
         webs.onclose = () => {
             const index = connectionProvider.connections.findIndex(
-                // FIXME
                 (connection) => connection.socket === webs
             );
             logger.log(
