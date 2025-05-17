@@ -1,18 +1,20 @@
-import { getCommands } from '../utility/commandLoader';
-import { IBotRoutedCommand } from '../api/IRoutedCommand';
+// import { getCommands } from '../utility/commandLoader';
+// import { IBotRoutedCommand } from '../api/IRoutedCommand';
 import { IBot } from './botClient';
 import { ICommand } from '../api/ICommand';
 import { logger, MESSAGE_TYPE } from '../logger/logger';
 import { BOT_LOG } from '../appconfig';
+import { moduleCommands } from './loadCommands';
 
-getCommands('./bot/commands/').then((loadedCommands) =>
-    commands.push(
-        ...loadedCommands
-            .filter((cmd) => !!cmd)
-            .map((cmd) => cmd as unknown as IBotRoutedCommand)
-    )
-);
-const commands: IBotRoutedCommand[] = [];
+// getCommands('./bot/commands/').then((loadedCommands) =>
+//     commands.push(
+//         ...loadedCommands
+//             .filter((cmd) => !!cmd)
+//             .map((cmd) => cmd as unknown as IBotRoutedCommand)
+//     )
+// );
+// const commands: IBotRoutedCommand[] = [];
+const commands = moduleCommands;
 
 export const routeMessage = async (incomingMessage: string, socket: IBot) => {
     const request = JSON.parse(incomingMessage) as ICommand;
