@@ -27,7 +27,11 @@ export const attack = async (
     }
     if (session.currentPlayer != userId) return [];
     const result = session.shoot(data.x, data.y, userId);
-    if (result === 'unprocessed') return [];
+    if (result === 'unprocessed') {
+        const nextPlayer = turn(session.currentPlayer);
+        connectionProvider.multicast(session.players, nextPlayer);
+        return [];
+    }
     const response: IAttackResponse = {
         status: result,
         currentPlayer: userId,
