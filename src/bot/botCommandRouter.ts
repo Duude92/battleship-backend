@@ -18,7 +18,9 @@ export const routeMessage = async (incomingMessage: string, socket: IBot) => {
     const request = JSON.parse(incomingMessage) as ICommand;
     const routedCommand = commands.find((cmd) => cmd.route === request.type);
     if (!routedCommand) {
-        throw new Error(`${request.type} command not found`);
+        if (BOT_LOG)
+            logger.log(MESSAGE_TYPE.ERROR, `${request.type} command not found`);
+        return;
     }
     const command = routedCommand?.command;
     if (BOT_LOG) logger.log(MESSAGE_TYPE.REQUEST, request);

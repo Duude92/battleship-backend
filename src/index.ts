@@ -12,6 +12,7 @@ process.on('SIGTERM', closeServer);
 process.on('SIGUSR1', closeServer);
 process.on('SIGUSR2', closeServer);
 process.on('uncaughtException', (error) => {
-    logger.log(MESSAGE_TYPE.ERROR, 'Uncaught exception: ' + error);
+    logger.log(MESSAGE_TYPE.ERROR, 'Uncaught exception: ' + error.stack);
+
     closeServer();
 });

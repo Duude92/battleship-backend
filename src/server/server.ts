@@ -57,7 +57,7 @@ export const startServer = (port: number) => {
                 await routeMessage(msg.data.toString(), webs);
             } catch (error) {
                 if (!(error instanceof Error)) return;
-                logger.log(MESSAGE_TYPE.ERROR, error.toString());
+                logger.log(MESSAGE_TYPE.ERROR, '' + error.stack);
             }
         };
         webs.onclose = () => {
