@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
     {
-        ignores: ['websockets-ui/**']
+        ignores: ['websockets-ui/**', 'webpack.config.js']
     },
     eslint.configs.recommended,
     tseslint.configs.recommended
