@@ -51,7 +51,7 @@ export class Session {
             (board) => board.shipData.indexPlayer !== userId
         )!;
         if (!board.freeCells.length) return { x: -1, y: -1 };
-        const rand = Math.round(Math.random() * board.freeCells.length - 1);
+        const rand = Math.round(Math.random() * (board.freeCells.length - 1));
         return board.freeCells[rand];
     }
 
