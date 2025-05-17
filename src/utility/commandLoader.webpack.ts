@@ -11,10 +11,9 @@ function loadCommands(context: __WebpackModuleApi.RequireContext) {
             return mod.createCommand as () => IRoutedCommand;
         })
         .filter((command: unknown) => command != undefined);
-    const commands = moduleCommands.map((command) => {
+    return moduleCommands.map((command) => {
         return command();
     });
-    return commands;
 }
 
 export const getCommands = async (
@@ -32,13 +31,10 @@ export const getCommands = async (
             ctx: require.context('../bot/commands/', false, /\.ts$/)
         }
     ];
-    console.log(contexts);
     const ctxCommands = contexts.map((ctx) => ({
         path: ctx.path,
         commands: loadCommands(ctx.ctx) as IRoutedCommand[]
     }));
-    console.log(ctxCommands);
-    // return [];
     return ctxCommands.find((commands) => commands.path.includes(basePath))!
         .commands;
 };
