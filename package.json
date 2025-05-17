@@ -4,9 +4,10 @@
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
-    "build": "tsc",
+    "build": "webpack",
     "start:front": "npm run start --prefix websockets-ui/",
-    "start:dev": "nodemon --exec ts-node src/index.ts"
+    "start:dev": "nodemon --exec ts-node src/index.ts",
+    "start:prod": "npm run build && node dist/bundle.js"
   },
   "dependencies": {
     "dotenv": "^16.5.0",
