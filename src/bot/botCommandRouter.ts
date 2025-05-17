@@ -1,20 +1,19 @@
-// import { getCommands } from '../utility/commandLoader';
-// import { IBotRoutedCommand } from '../api/IRoutedCommand';
+import { getCommands } from '../utility/commandLoader';
+import { IBotRoutedCommand } from '../api/IRoutedCommand';
 import { IBot } from './botClient';
 import { ICommand } from '../api/ICommand';
 import { logger, MESSAGE_TYPE } from '../logger/logger';
 import { BOT_LOG } from '../appconfig';
-import { moduleCommands } from './loadCommands';
 
-// getCommands('./bot/commands/').then((loadedCommands) =>
-//     commands.push(
-//         ...loadedCommands
-//             .filter((cmd) => !!cmd)
-//             .map((cmd) => cmd as unknown as IBotRoutedCommand)
-//     )
-// );
-// const commands: IBotRoutedCommand[] = [];
-const commands = moduleCommands;
+const commands: IBotRoutedCommand[] = [];
+
+(async () => {
+    commands.push(
+        ...(await getCommands('bot/commands/'))
+            .filter((cmd) => !!cmd && 'command' in cmd)
+            .map((cmd) => cmd as unknown as IBotRoutedCommand)
+    );
+})();
 
 export const routeMessage = async (incomingMessage: string, socket: IBot) => {
     const request = JSON.parse(incomingMessage) as ICommand;
@@ -27,7 +26,5 @@ export const routeMessage = async (incomingMessage: string, socket: IBot) => {
     const command = routedCommand?.command;
     if (BOT_LOG) logger.log(MESSAGE_TYPE.REQUEST, request);
 
-    // const result =
     await command(request.data, socket);
-    // result.forEach((res) => connectionProvider.unicast(userId, res));
 };
