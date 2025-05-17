@@ -14,6 +14,7 @@ enum Turn {
 export class Session {
     public readonly gameId: string;
     public winner: UserIdType | undefined;
+    public players: UserIdType[];
     private readonly boards: IBoard[];
     private turn: Turn;
 
@@ -21,15 +22,11 @@ export class Session {
         this.gameId = gameId;
         this.boards = [];
         this.turn = Turn.first;
+        this.players = [];
     }
 
     get currentPlayer(): UserIdType {
         return this.players[this.turn];
-    }
-
-    //TODO: Optimize it
-    get players(): UserIdType[] {
-        return this.boards.map((board) => board.shipData.indexPlayer);
     }
 
     makeTurn() {
@@ -38,6 +35,7 @@ export class Session {
 
     addShips(data: IShipsData) {
         this.boards.push(createBoard(data));
+        this.players.push(data.indexPlayer);
         if (this.boards.length === 2) {
             //Randomize first turn
             this.turn = Number(Math.random() > 0.5);
