@@ -47,25 +47,22 @@ export class Session {
     }
 
     getAvailableRandomPosition(userId: UserIdType) {
-        let randX: number;
-        let randY: number;
-        let occupied = false;
         const board = this.boards.find(
             (board) => board.shipData.indexPlayer !== userId
         )!;
-        // TODO: Optimize
-        while (!occupied) {
-            randX = Math.round(Math.random() * CELL_MAX_ID);
-            randY = Math.round(Math.random() * CELL_MAX_ID);
-            if (!board.cellData[randX][randY].cellHit) occupied = true;
-        }
-        return { x: randX!, y: randY! };
+        if (!board.freeCells.length) return { x: -1, y: -1 };
+        const rand = Math.round(Math.random() * board.freeCells.length - 1);
+        return board.freeCells[rand];
     }
 
     shoot(x: number, y: number, userId: UserIdType): AttackResult {
         const board = this.getAnotherPlayerBoard(userId);
         if (board.cellData[x][y].cellHit) return 'unprocessed';
         board.cellData[x][y].cellHit = true;
+        const freeCell = board.freeCells.findIndex(
+            (cell) => cell.x === x && cell.y === y
+        );
+        board.freeCells.splice(freeCell, 1);
         if (!board.cellData[x][y].cellObject) return 'miss';
         const missed = board.cellData[x][y].shipCells!.cells.find(
             (cellPos) => !board.cellData[cellPos.x][cellPos.y].cellHit
@@ -117,9 +114,13 @@ export class Session {
         const result = allCells?.filter(
             (cell) => !board.cellData[cell.x][cell.y].cellHit
         );
-        result?.forEach(
-            (cell) => (board.cellData[cell.x][cell.y].cellHit = true)
-        );
+        result?.forEach((cell) => {
+            board.cellData[cell.x][cell.y].cellHit = true;
+            const freeCell = board.freeCells.findIndex(
+                (fCell) => cell.x === fCell.x && cell.y === fCell.y
+            );
+            board.freeCells.splice(freeCell, 1);
+        });
 
         return result;
     }

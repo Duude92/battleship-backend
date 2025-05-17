@@ -28,12 +28,22 @@ const createCellData = (ships: IShip[]): ICellData[][] => {
 };
 export const createBoard = (shipData: IShipsData): IBoard => ({
     shipData: shipData,
-    cellData: createCellData(shipData.ships)
+    cellData: createCellData(shipData.ships),
+    freeCells: (() => {
+        const result: vector2d[] = [];
+        for (let i = 0; i < CELLS_MAX; i++) {
+            for (let j = 0; j < CELLS_MAX; j++) {
+                result.push({ x: i, y: j });
+            }
+        }
+        return result;
+    })()
 });
 
 export interface IBoard {
     shipData: IShipsData;
     cellData: ICellData[][];
+    freeCells: vector2d[];
 }
 
 interface vector2d {
