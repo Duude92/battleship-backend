@@ -10,7 +10,7 @@ import { IRoutedCommand } from '../api/IRoutedCommand';
 export const getCommands = async (
     basePath: string
 ): Promise<IRoutedCommand[]> => {
-    const fullPath = await path.resolve('./src', basePath);
+    const fullPath = path.resolve('./src', basePath);
     const files = await fs.readdir(fullPath, { withFileTypes: true });
 
     return Promise.all(

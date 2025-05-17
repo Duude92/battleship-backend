@@ -15,6 +15,9 @@ module.exports = {
         ]
     },
     resolve: {
+        alias: {
+            '../utility/commandLoader': path.resolve(__dirname,'./src/utility/commandLoader.webpack.ts')
+        },
         extensions: ['.tsx', '.ts', '.js']
     },
     output: {
