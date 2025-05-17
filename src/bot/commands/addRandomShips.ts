@@ -16,7 +16,7 @@ export const addRandomShips = async (
     },
     bot: IBot
 ) => {
-    const randomShipsIdx = Math.ceil(Math.random() * shipsLength);
+    const randomShipsIdx = Math.ceil(Math.random() * shipsLength - 1);
     const ships = shipArray[randomShipsIdx];
     const command = createCommandObject('add_ships', {
         ...ships,
