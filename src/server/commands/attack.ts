@@ -41,7 +41,27 @@ export const attack = async (
         createCommandObject('attack', response)
     );
     if (result === 'miss') session.makeTurn();
-
+    if (result === 'killed') {
+        const cells = session.getUntouchedNeighbouringCellsAndMarkEmHit(
+            data.x,
+            data.y,
+            userId
+        );
+        cells.forEach((cell) => {
+            const killResponse: IAttackResponse = {
+                status: 'miss',
+                currentPlayer: userId,
+                position: {
+                    x: cell.x,
+                    y: cell.y
+                }
+            };
+            connectionProvider.multicast(
+                session.players,
+                createCommandObject('attack', killResponse)
+            );
+        });
+    }
     const nextPlayer = turn(session.currentPlayer);
     connectionProvider.multicast(session.players, nextPlayer);
     const winner = session.winner;

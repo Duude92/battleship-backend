@@ -1,7 +1,6 @@
 import { IShipsData } from '../server/commands/api/IShipsData';
 import { startGame } from '../server/commands/startGame';
-import { AttackResult, IAttackResponse } from '../server/commands/api/IAttack';
-import { finish } from '../server/commands/finish';
+import { AttackResult } from '../server/commands/api/IAttack';
 import { UserIdType } from '../api/storage/IUser';
 import { createBoard, IBoard } from './board';
 
@@ -66,15 +65,14 @@ export class Session {
     }
 
     shoot(x: number, y: number, userId: UserIdType): AttackResult {
-        //TODO: process game finishing
-
-        const board = this.boards.find(
-            (board) => board.shipData.indexPlayer !== userId
-        )!;
+        const board = this.getAnotherPlayerBoard(userId);
         if (board.cellData[x][y].cellHit) return 'unprocessed';
         board.cellData[x][y].cellHit = true;
         if (!board.cellData[x][y].cellObject) return 'miss';
-        if (board.cellData[x][y].shipCells!.cells.length === 1) {
+        const missed = board.cellData[x][y].shipCells!.cells.find(
+            (cellPos) => !board.cellData[cellPos.x][cellPos.y].cellHit
+        );
+        if (!missed) {
             const shipIndex = board.shipData.ships.findIndex(
                 (ship) => ship == board.cellData[x][y].cellObject
             );
@@ -82,11 +80,49 @@ export class Session {
             if (board.shipData.ships.length < 1) this.winner = userId;
             return 'killed';
         }
-        const shipCells = board.cellData[x][y].shipCells!;
-        const index = shipCells.cells.findIndex(
-            (cell) => cell.x === x && cell.y === y
-        );
-        shipCells.cells.splice(index, 1);
         return 'shot';
+    }
+
+    private getAnotherPlayerBoard(userId: string | number) {
+        return this.boards.find(
+            (board) => board.shipData.indexPlayer !== userId
+        )!;
+    }
+
+    getUntouchedNeighbouringCellsAndMarkEmHit(
+        x: number,
+        y: number,
+        userId: UserIdType
+    ): { x: number; y: number }[] {
+        const board = this.getAnotherPlayerBoard(userId);
+        const cellData = board.cellData[x][y];
+        const shipCells = cellData.shipCells!;
+        const allCells = shipCells.cells.flatMap((cell) => {
+            const aroundCells: { x: number; y: number }[] = [];
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    const newCell = { x: cell.x + i, y: cell.y + j };
+                    if (
+                        !(
+                            newCell.x < 0 ||
+                            newCell.x > CELL_MAX_ID ||
+                            newCell.y < 0 ||
+                            newCell.y > CELL_MAX_ID
+                        )
+                    ) {
+                        aroundCells.push(newCell);
+                    }
+                }
+            }
+            return aroundCells;
+        });
+        const result = allCells?.filter(
+            (cell) => !board.cellData[cell.x][cell.y].cellHit
+        );
+        result?.forEach(
+            (cell) => (board.cellData[cell.x][cell.y].cellHit = true)
+        );
+
+        return result;
     }
 }
