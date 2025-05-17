@@ -1,14 +1,10 @@
-import { configDotenv } from 'dotenv';
 import { startServer } from './server/server';
 import { logger, MESSAGE_TYPE } from './logger/logger';
+import { SERVER_PORT } from './appconfig';
 
-configDotenv();
 logger.setup(process.stdout);
 
-const serverPort = Number(process.env.SERVER_PORT) || 3000;
-
-const server = startServer(serverPort);
-
+const server = startServer(SERVER_PORT);
 const closeServer = () => server.close();
 process.on('exit', closeServer);
 process.on('SIGINT', closeServer);

@@ -3,6 +3,7 @@ import { IBotRoutedCommand } from '../api/IRoutedCommand';
 import { IBot } from './botClient';
 import { ICommand } from '../api/ICommand';
 import { logger, MESSAGE_TYPE } from '../logger/logger';
+import { BOT_LOG } from '../appconfig';
 
 getCommands('./bot/commands/').then((loadedCommands) =>
     commands.push(
@@ -20,7 +21,7 @@ export const routeMessage = async (incomingMessage: string, socket: IBot) => {
         throw new Error(`${request.type} command not found`);
     }
     const command = routedCommand?.command;
-    logger.log(MESSAGE_TYPE.REQUEST, request);
+    if (BOT_LOG) logger.log(MESSAGE_TYPE.REQUEST, request);
 
     // const result =
     await command(request.data, socket);
