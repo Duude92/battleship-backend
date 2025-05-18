@@ -1,11 +1,16 @@
-import { startServer } from './server/server';
+import { connectionProvider, startServer } from './server/server';
 import { logger, MESSAGE_TYPE } from './logger/logger';
 import { SERVER_PORT } from './appconfig';
+import { createCommandObject } from './api/ICommand';
 
 logger.setup(process.stdout);
 
 const server = startServer(SERVER_PORT);
-const closeServer = () => server.close();
+const closeServer = () => {
+    const commandObject = createCommandObject('finish', { winPlayer: null });
+    connectionProvider.broadcast(commandObject);
+    server.close();
+};
 process.on('exit', closeServer);
 process.on('SIGINT', closeServer);
 process.on('SIGTERM', closeServer);
