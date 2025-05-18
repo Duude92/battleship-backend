@@ -17,13 +17,14 @@ Node.js v22.14.0 or higher
 
 ## Installation
 
-1. Clone this repository
+1. Clone this repository with command `git clone -b dev --recursive https://github.com/Duude92/battleship-backend.git` to download front-end also
 2. Run `npm install` from local project directory to install dependencies.
 3. Rename .env.example to .env to provide application settings
 
 ## Usage
 
 Start service with following commands:
+If you cloned repository without front-end submodule, checkout to dev branch, and run command: `git submodule update --init --recursive`
 - `npm run start:front` to run front-end service
 - `npm run start:dev` to run backend service in development mode
 - `npm run start:prod` to build & run backend service in production mode
