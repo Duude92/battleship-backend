@@ -62,7 +62,7 @@ export class Session {
         const freeCell = board.freeCells.findIndex(
             (cell) => cell.x === x && cell.y === y
         );
-        board.freeCells.splice(freeCell, 1);
+        if (freeCell > 0) board.freeCells.splice(freeCell, 1);
         if (!board.cellData[x][y].cellObject) return 'miss';
         const missed = board.cellData[x][y].shipCells!.cells.find(
             (cellPos) => !board.cellData[cellPos.x][cellPos.y].cellHit
@@ -119,7 +119,7 @@ export class Session {
             const freeCell = board.freeCells.findIndex(
                 (fCell) => cell.x === fCell.x && cell.y === fCell.y
             );
-            board.freeCells.splice(freeCell, 1);
+            if (freeCell > 0) board.freeCells.splice(freeCell, 1);
         });
 
         return result;
