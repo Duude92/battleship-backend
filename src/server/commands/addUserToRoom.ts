@@ -21,6 +21,22 @@ const addUserToRoom = async (
     }
     if (room.roomUsers.find((user) => user.index === userId)) return [];
     const user = dbContext.users.find((user) => user.id === userId)!;
+    const user2Id = room.roomUsers[0].index;
+    const usersRooms = roomProvider.rooms
+        .filter((room) =>
+            room.roomUsers.find(
+                (roomUser) =>
+                    roomUser.index === userId || roomUser.index === user2Id
+            )
+        )
+        .filter((fRoom) => fRoom != room);
+    usersRooms.forEach((uRoom) => {
+        const rIndex = roomProvider.rooms.findIndex(
+            (fRoom) => fRoom.roomId === uRoom.roomId
+        );
+        if (rIndex > 0) roomProvider.rooms.splice(rIndex, 1);
+    });
+
     room.roomUsers.push(createRoomUser(user.id, user));
     await createGame(room.roomId);
     return [];
