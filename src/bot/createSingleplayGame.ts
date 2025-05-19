@@ -21,7 +21,7 @@ export const createSingleplayGame = async (
         const rIndex = roomProvider.rooms.findIndex(
             (fRoom) => fRoom.roomId === uRoom.roomId
         );
-        if (rIndex > 0) roomProvider.rooms.splice(rIndex, 1);
+        if (rIndex >= 0) roomProvider.rooms.splice(rIndex, 1);
     });
     await updateRoom();
     connectionProvider.unicast(

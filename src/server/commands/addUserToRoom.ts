@@ -34,7 +34,7 @@ const addUserToRoom = async (
         const rIndex = roomProvider.rooms.findIndex(
             (fRoom) => fRoom.roomId === uRoom.roomId
         );
-        if (rIndex > 0) roomProvider.rooms.splice(rIndex, 1);
+        if (rIndex >= 0) roomProvider.rooms.splice(rIndex, 1);
     });
 
     room.roomUsers.push(createRoomUser(user.id, user));
