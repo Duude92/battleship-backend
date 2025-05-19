@@ -1,0 +1,3 @@
+[submodule "websockets-ui"]
+	path = websockets-ui
+	url = https://github.com/rolling-scopes-school/websockets-ui.git
