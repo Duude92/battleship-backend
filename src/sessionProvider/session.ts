@@ -1,8 +1,10 @@
 import { IShipsData } from '../server/commands/api/IShipsData';
 import { startGame } from '../server/commands/startGame';
-import { AttackResult } from '../server/commands/api/IAttack';
+import { AttackResult, IAttackResponse } from '../server/commands/api/IAttack';
 import { UserIdType } from '../api/storage/IUser';
 import { createBoard, IBoard } from './board';
+import { connectionProvider } from '../server/server';
+import { createCommandObject } from '../api/ICommand';
 
 const CELL_MAX_ID = 9;
 
@@ -72,6 +74,20 @@ export class Session {
                 (ship) => ship == board.cellData[x][y].cellObject
             );
             board.shipData.ships.splice(shipIndex, 1);
+            board.cellData[x][y].shipCells!.cells.forEach((cellPos) => {
+                const response: IAttackResponse = {
+                    status: 'killed',
+                    currentPlayer: userId,
+                    position: {
+                        x: cellPos.x,
+                        y: cellPos.y
+                    }
+                };
+                connectionProvider.multicast(
+                    this.players,
+                    createCommandObject('attack', response)
+                );
+            });
             if (board.shipData.ships.length < 1) this.winner = userId;
             return 'killed';
         }
