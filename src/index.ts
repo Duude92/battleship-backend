@@ -7,7 +7,9 @@ logger.setup(process.stdout);
 
 const server = startServer(SERVER_PORT);
 const closeServer = () => {
-    const commandObject = createCommandObject('finish', { winPlayer: null });
+    const commandObject = createCommandObject('finish', {
+        winPlayer: null
+    });
     connectionProvider.broadcast(commandObject);
     server.close();
 };

@@ -1,4 +1,3 @@
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { IRequestRegister, IResponseRegister } from './api/IPlayer';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { createCommandObject } from '../../api/ICommand';
@@ -6,6 +5,7 @@ import { updateWinners } from './updateWinners';
 import { updateRoom } from './updateRoom';
 import { connectionProvider } from '../server';
 import { UserIdType } from '../../api/storage/IUser';
+import { $ExportObject } from '@duude92/lazyinject';
 
 const register = async (input: string, userId: UserIdType) => {
     const payload = JSON.parse(input) as IRequestRegister;
@@ -79,7 +79,10 @@ const register = async (input: string, userId: UserIdType) => {
     return [];
 };
 
-export const createCommand = (): IRoutedCommand => ({
-    route: 'reg',
-    command: register
-});
+$ExportObject(
+    {
+        route: 'reg',
+        command: register
+    },
+    'IRoutedCommand'
+);

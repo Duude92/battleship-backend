@@ -1,8 +1,8 @@
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { createBot } from '../../bot/botClient';
 import { UserIdType } from '../../api/storage/IUser';
 import { randomUUID } from 'node:crypto';
 import { createSingleplayGame } from '../../bot/createSingleplayGame';
+import { $ExportObject } from '@duude92/lazyinject';
 
 const bots = [];
 
@@ -13,7 +13,11 @@ const singlePlay = async (payload: string, userId: UserIdType) => {
     bots.push(bot);
     return [];
 };
-export const createCommand = (): IRoutedCommand => ({
-    route: 'single_play',
-    command: singlePlay
-});
+
+$ExportObject(
+    {
+        route: 'single_play',
+        command: singlePlay
+    },
+    'IRoutedCommand'
+);

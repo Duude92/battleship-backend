@@ -1,12 +1,11 @@
 import { UserIdType } from '../../api/storage/IUser';
-
-const commandType = 'create_room';
-
 import { roomProvider } from '../../roomProvider/roomProvider';
 import { randomUUID } from 'node:crypto';
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { updateRoom } from './updateRoom';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
+import { $ExportObject } from '@duude92/lazyinject';
+
+const commandType = 'create_room';
 
 const createRoom = async (payload: string, userId: UserIdType) => {
     const user = dbContext.users.find((user) => user.id === userId)!;
@@ -23,7 +22,11 @@ const createRoom = async (payload: string, userId: UserIdType) => {
     await updateRoom();
     return [];
 };
-export const createCommand = (): IRoutedCommand => ({
-    route: commandType,
-    command: createRoom
-});
+
+$ExportObject(
+    {
+        route: commandType,
+        command: createRoom
+    },
+    'IRoutedCommand'
+);

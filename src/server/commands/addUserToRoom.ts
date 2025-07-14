@@ -1,10 +1,10 @@
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { roomProvider } from '../../roomProvider/roomProvider';
 import { dbContext } from '../../memoryDbProvider/dbProvider';
 import { ICommand } from '../../api/ICommand';
 import { createRoomUser, RoomIdType } from '../../api/IRoom';
 import { createGame } from './createGame';
 import { UserIdType } from '../../api/storage/IUser';
+import { $ExportObject } from '@duude92/lazyinject';
 
 const commandType = 'add_user_to_room';
 
@@ -41,7 +41,11 @@ const addUserToRoom = async (
     await createGame(room.roomId);
     return [];
 };
-export const createCommand = (): IRoutedCommand => ({
-    route: commandType,
-    command: addUserToRoom
-});
+
+$ExportObject(
+    {
+        route: commandType,
+        command: addUserToRoom
+    },
+    'IRoutedCommand'
+);

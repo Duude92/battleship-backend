@@ -1,4 +1,3 @@
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import {
     IAttackRequest,
     IAttackResponse,
@@ -10,6 +9,7 @@ import { connectionProvider } from '../server';
 import { turn } from './turn';
 import { UserIdType } from '../../api/storage/IUser';
 import { finish } from './finish';
+import { $ExportObject } from '@duude92/lazyinject';
 
 export const attack = async (
     payload: string | IAttackRequest,
@@ -74,7 +74,11 @@ export const attack = async (
     }
     return [];
 };
-export const createCommand = (): IRoutedCommand => ({
-    route: 'attack',
-    command: attack
-});
+
+$ExportObject(
+    {
+        route: 'attack',
+        command: attack
+    },
+    'IRoutedCommand'
+);

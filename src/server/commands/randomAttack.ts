@@ -1,8 +1,8 @@
-import { IRoutedCommand } from '../../api/IRoutedCommand';
 import { UserIdType } from '../../api/storage/IUser';
 import { RoomIdType } from '../../api/IRoom';
 import { sessionProvider } from '../../sessionProvider/sessionProvider';
 import { attack } from './attack';
+import { $ExportObject } from '@duude92/lazyinject';
 
 const randomAttack = async (payload: string, userId: UserIdType) => {
     const data = JSON.parse(payload) as {
@@ -26,7 +26,10 @@ const randomAttack = async (payload: string, userId: UserIdType) => {
     return [];
 };
 
-export const createCommand = (): IRoutedCommand => ({
-    route: 'randomAttack',
-    command: randomAttack
-});
+$ExportObject(
+    {
+        route: 'randomAttack',
+        command: randomAttack
+    },
+    'IRoutedCommand'
+);
