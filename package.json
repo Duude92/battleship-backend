@@ -10,11 +10,12 @@
     "start:prod": "npm run build && node dist/bundle.js"
   },
   "dependencies": {
-    "@duude92/lazyinject": "^0.0.3",
     "dotenv": "^16.5.0",
     "ws": "^8.18.2"
   },
   "devDependencies": {
+    "@duude92/lazyinject": "^0.1.5",
+    "@duude92/lazyinject-webpack-plugin": "^0.0.2",
     "@eslint/js": "^9.26.0",
     "@types/ws": "^8.18.1",
     "eslint": "^9.26.0",

@@ -1,5 +1,5 @@
 const path = require('path');
-
+const LazyInjectWebpackPlugin = require('@duude92/lazyinject-webpack-plugin');
 
 module.exports = {
     entry: './src/index.ts',
@@ -16,7 +16,10 @@ module.exports = {
     },
     resolve: {
         alias: {
-            '../utility/commandLoader': path.resolve(__dirname,'./src/utility/commandLoader.webpack.ts')
+            '../utility/commandLoader': path.resolve(
+                __dirname,
+                './src/utility/commandLoader.webpack.ts'
+            )
         },
         extensions: ['.tsx', '.ts', '.js']
     },
@@ -24,5 +27,6 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
-    externals: {}
+    externals: {},
+    plugins: [new LazyInjectWebpackPlugin()]
 };
