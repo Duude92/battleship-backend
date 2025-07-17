@@ -1,3 +1,3 @@
 module.exports = {
-    catalogs: ['src/server/commands']
+    catalogs: ['src/server/commands', 'src/server/']
 };
