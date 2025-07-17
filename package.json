@@ -14,7 +14,7 @@
     "ws": "^8.18.2"
   },
   "devDependencies": {
-    "@duude92/lazyinject": "^0.1.5",
+    "@duude92/lazyinject": "^0.1.7",
     "@duude92/lazyinject-webpack-plugin": "^0.0.2",
     "@eslint/js": "^9.26.0",
     "@types/ws": "^8.18.1",
