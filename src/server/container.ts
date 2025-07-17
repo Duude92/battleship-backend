@@ -13,5 +13,14 @@ export const container = {
             });
         }
         return containerInternal.getMany<T>(type);
+    },
+    async get<T>(type: InterfaceType) {
+        if (!containerInternal) {
+            containerInternal = await ContainerFactory.create({
+                baseDir: __dirname,
+                catalogs: ['./commands/']
+            });
+        }
+        return containerInternal.get<T>(type);
     }
 };
