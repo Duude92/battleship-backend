@@ -1,9 +1,10 @@
 import * as ws from 'ws';
-import { routeMessage } from './commandRouter';
 import { randomUUID } from 'node:crypto';
 import { ICommand } from '../api/ICommand';
 import { UserIdType } from '../api/storage/IUser';
 import { logger, MESSAGE_TYPE } from '../logger/logger';
+import { type CommandRouter } from './commandRouter';
+import { container } from './container';
 
 const __connections: { readonly socket: WebSocket; userId: UserIdType }[] = [];
 export const connectionProvider = {
@@ -40,6 +41,10 @@ export const connectionProvider = {
         );
     }
 };
+let router: CommandRouter;
+container
+    .get<CommandRouter>('CommandRouter')
+    .then((commandRouter) => (router = commandRouter!));
 export const startServer = (port: number) => {
     const srv = new ws.Server({ port: port });
     srv.on('connection', async (webs: WebSocket) => {
@@ -54,7 +59,7 @@ export const startServer = (port: number) => {
         connectionProvider.connections.push(connection);
         webs.onmessage = async (msg) => {
             try {
-                await routeMessage(msg.data.toString(), webs);
+                await router.routeMessage(msg.data.toString(), webs);
             } catch (error) {
                 if (!(error instanceof Error)) return;
                 logger.log(MESSAGE_TYPE.ERROR, '' + error.stack);
